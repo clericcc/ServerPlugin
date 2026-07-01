@@ -20,7 +20,7 @@ public final class MCServer extends JavaPlugin {
         getCommand("mmoitem").setExecutor(mmoItemCmd);
         getCommand("mmoitem").setTabCompleter(mmoItemCmd);
 
-        new ManaUITask().runTaskTimer(this, 0L, 20L);
+        new ManaUITask(this).runTaskTimer(this, 0L, 20L);
 
         getLogger().info("MMORPG Plugin aktiviert!");
         // Plugin startup logic
