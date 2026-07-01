@@ -15,6 +15,7 @@ public final class MCServer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ArmorListener(this), this);
         getServer().getPluginManager().registerEvents(new MobSpawnListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(), this);
+        getServer().getPluginManager().registerEvents(new MobBehaviorListener(), this);
 
         SpawnItemCommand mmoItemCmd = new SpawnItemCommand(this);
 
