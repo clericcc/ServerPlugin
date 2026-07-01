@@ -14,11 +14,13 @@ public final class MCServer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CombatListener(this), this);
         getServer().getPluginManager().registerEvents(new ArmorListener(this), this);
         getServer().getPluginManager().registerEvents(new MobSpawnListener(this), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
         SpawnItemCommand mmoItemCmd = new SpawnItemCommand(this);
 
         getCommand("mmoitem").setExecutor(mmoItemCmd);
         getCommand("mmoitem").setTabCompleter(mmoItemCmd);
+        getCommand("stats").setExecutor(new statsMenuCommand(this));
 
         new ManaUITask(this).runTaskTimer(this, 0L, 20L);
 

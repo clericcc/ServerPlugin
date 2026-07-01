@@ -1,8 +1,6 @@
 package at.notcleric.mCServer;
 
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -13,7 +11,6 @@ import java.util.Random;
 public class MobDropListener implements Listener {
     private final JavaPlugin plugin;
     private final Random random = new Random();
-    private final double DROP_CHANCE = 0.02; // 2% chance
 
     public MobDropListener(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -21,15 +18,38 @@ public class MobDropListener implements Listener {
 
     @EventHandler
     public void onMobDeath(EntityDeathEvent event) {
-        Player killer = event.getEntity().getKiller();
-        if (killer == null) return;
-        if (!(event.getEntity() instanceof Monster)) return;
+        // For now, we are attaching our loot table to all Zombies
+        if (event.getEntity().getType() == EntityType.ZOMBIE) {
 
-        if (random.nextDouble() <= DROP_CHANCE) {
-            event.getDrops().add(ItemManager.createWindBlade(plugin));
-            killer.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "RNG DROP! " + ChatColor.AQUA + "You found a Wind Blade!");
-            killer.playSound(killer.getLocation(), org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 2.0f);
+            // Optional: If you want to remove vanilla drops like Rotten Flesh, uncomment this!
+            // event.getDrops().clear();
+
+            // --- 1. Wind Blade Drop (5% Chance) ---
+            if (rollChance(5.0)) {
+                event.getDrops().add(ItemManager.createWindBlade(plugin));
+            }
+
+            // --- 2. Cloud Boots Drop (3% Chance) ---
+            if (rollChance(3.0)) {
+                event.getDrops().add(ItemManager.createCloudBoots(plugin));
+            }
+
+            // Easily add more items here later!
+            // if (rollChance(1.5)) { event.getDrops().add(ItemManager.createEpicSword(plugin)); }
         }
     }
+
+    /**
+     * Helper method to easily calculate drop chances.
+     * @param percentage The % chance for the item to drop (e.g. 5.0 for 5%)
+     * @return true if the item should drop, false if not.
+     */
+    private boolean rollChance(double percentage) {
+        // random.nextDouble() generates a number between 0.00 and 99.99
+        double roll = random.nextDouble() * 100.0;
+        return roll <= percentage;
+    }
+
+
 }
 

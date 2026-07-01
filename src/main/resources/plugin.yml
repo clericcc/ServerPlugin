@@ -7,4 +7,7 @@ commands:
   mmoitem:
     description: Spawns custom MMORPG items.
     usage: /mmoitem <itemname>
+  stats:
+    description: Opens the player stats menu.
+    usage: /stats
 
