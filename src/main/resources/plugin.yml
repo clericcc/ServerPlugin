@@ -4,9 +4,7 @@ main: at.notcleric.mCServer.MCServer
 api-version: '1.21'
 
 commands:
-  windblade:
-    description: Spawns the custom Wind Blade weapon.
-    usage: /spawn windblade
-  cloudboots:
-    description: Spawns the custom Cloudstrider boots.
-    usage: /spawn cloudboots
+  mmoitem:
+    description: Spawns custom MMORPG items.
+    usage: /mmoitem <itemname>
+

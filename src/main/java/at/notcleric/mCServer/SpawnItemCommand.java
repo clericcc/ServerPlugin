@@ -1,13 +1,16 @@
 package at.notcleric.mCServer;
 
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.StringUtil;
 
-public class SpawnItemCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class SpawnItemCommand implements CommandExecutor, TabCompleter {
     private final JavaPlugin plugin;
 
     public SpawnItemCommand(JavaPlugin plugin) {
@@ -37,7 +40,7 @@ public class SpawnItemCommand implements CommandExecutor {
 
             case "cloudboots":
                 p.getInventory().addItem(ItemManager.createCloudBoots(plugin));
-                p.sendMessage(ChatColor.DARK_PURPLE + "You received the Cloudstriders!");
+                p.sendMessage(ChatColor.GREEN + "You received the Cloudstriders!");
                 break;
 
             default:
@@ -46,5 +49,15 @@ public class SpawnItemCommand implements CommandExecutor {
         }
 
         return true;
+    }
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            List<String> items = Arrays.asList("windblade", "cloudboots");
+            StringUtil.copyPartialMatches(args[0], items, completions);
+        }
+        return completions;
     }
 }

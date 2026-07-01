@@ -1,5 +1,7 @@
 package at.notcleric.mCServer;
 
+import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Mob;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MCServer extends JavaPlugin {
@@ -9,12 +11,16 @@ public final class MCServer extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new AbilityListener(this), this);
         getServer().getPluginManager().registerEvents(new MobDropListener(this), this);
+        getServer().getPluginManager().registerEvents(new CombatListener(this), this);
+        getServer().getPluginManager().registerEvents(new ArmorListener(this), this);
+        getServer().getPluginManager().registerEvents(new MobSpawnListener(this), this);
 
-        getCommand("windblade").setExecutor(new WindBladeCommand(this));
+        SpawnItemCommand mmoItemCmd = new SpawnItemCommand(this);
+
+        getCommand("mmoitem").setExecutor(mmoItemCmd);
+        getCommand("mmoitem").setTabCompleter(mmoItemCmd);
 
         new ManaUITask().runTaskTimer(this, 0L, 20L);
-
-        getServer().getPluginManager().registerEvents(new CombatListener(this), this);
 
         getLogger().info("MMORPG Plugin aktiviert!");
         // Plugin startup logic
